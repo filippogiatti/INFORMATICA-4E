@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ValidaData {
+public class giatti_gestioneData2_3E {
     public static void main(String[] args) {
         int numero = 0;
         Scanner scanner = new Scanner(System.in);
