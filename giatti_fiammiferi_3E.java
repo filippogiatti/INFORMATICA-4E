@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Fiammiferi {
+public class giatti_fiammiferi_3E {
 
     public static void main(String[] Args){
         Scanner scanner=new Scanner(System.in);
