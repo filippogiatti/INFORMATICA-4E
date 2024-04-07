@@ -19,10 +19,14 @@ public class Main {
         do {
             switch(menu(operazioni, keyboard)) {
                 case 1->{
-                    if(contrattiVenduti<nMax){
-                        gestore[contrattiVenduti] = leggiPersona(siTel, keyboard);
-
+                    if (contrattiVenduti < nMax) {
+                        //firma contratto
+                        gestore[contrattiVenduti]=leggiPersona(siTel,keyboard,contrattiVenduti,gestore);
+                        contrattiVenduti++;
+                    } else {
+                        System.out.println("Non ci sono più contratti da vendere");
                     }
+                    break;
                 }
                 case 2->{}
                 case 3->{}
@@ -30,27 +34,45 @@ public class Main {
             }
         }while(fine);
     }
-    private static Contatto leggiPersona(boolean siTel, Scanner keyboard){
-        String[] tipoC = {"Telefono", "1]abitazione", "2]cellulare", "3]aziendale"};
+    private static Contatto leggiPersona(boolean Sitel, Scanner keyboard, int contrattiVenduti, Contatto[] gestore ) {
+
+        //Sitel è true quando dobbiamo leggere
+        String[] tipoC = {"Telefono","1]abitazione", "2]cellulare", "3]aziendale"};
+
+        //Istanziato un oggetto di tipo contatto:
         Contatto persona = new Contatto();
-        System.out.println("\nInserisci il nome:");
-        persona.nome=keyboard.nextLine();
-        System.out.println("\nInserisci il cognome:");
-        persona.cognome=keyboard.nextLine();
-        System.out.println("\nInserisci il numero di telefono");
-        if(siTel){
-            persona.telefono=keyboard.nextLine();
-            switch(menu(tipoC, keyboard)){
-                case 1 -> persona.tipo = tipoContratto.abitazione;
-
-                case 2 -> persona.tipo = tipoContratto.cellulare;
-
-                default -> persona.tipo = tipoContratto.aziendale;
-
-
+        boolean esistente;
+        do {
+            esistente=false;
+            System.out.println("\nInserisci il nome: ");
+            String nome = keyboard.nextLine();
+            System.out.println("\nInserisci il cognome: ");
+            persona.cognome = keyboard.nextLine();
+            for (int i = 0; i < contrattiVenduti; i++) {
+                if (gestore[i].nome.equalsIgnoreCase(nome) && gestore[i].cognome.equalsIgnoreCase(persona.cognome)) {
+                    System.out.println("Contratto già esistente per questo nome.");
+                    esistente = true;
+                    break;
+                }
+            }
+            // Se il nome non è stato trovato nei contratti esistenti, assegna il nome alla persona
+            if (!esistente) {
+                persona.nome=nome;
             }
 
+        }while(esistente);
+        System.out.println("\nInserisci il numero di telefono: ");
+        if (Sitel) {
+            persona.telefono = keyboard.nextLine();  //Vado a leggere il numero di telefono
+            //I valori assegnati all'attributo sono compresi nel range
+            switch (menu(tipoC, keyboard)) {
+                case 1 -> persona.tipo = tipoContratto.abitazione;
+                case 2 -> persona.tipo = tipoContratto.cellulare;
+                default -> persona.tipo = tipoContratto.aziendale;
+
+            }
         }
+
         return persona;
     }
     private static void visualizza(String[] gestore, int contrattiVenduti){
