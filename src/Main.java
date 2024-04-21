@@ -1,6 +1,7 @@
-import static tools.utility.*;
+import static tools.utility.menu;
 
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         String[] operazioni = {"VODAFONE",
@@ -10,7 +11,9 @@ public class Main {
                 "[4] Ricerca Numero telefonico",
                 "[5] Modifica contatto",
                 "[6] Cancellazione",
-                "[7] Fine"};
+                "[7] Telefonate",
+                "[8] Ricarica",
+                "[9] Fine"};
         boolean Sitel = true;
         final int nMax = 3;
         int contrattiVenduti = 0;
@@ -110,7 +113,34 @@ public class Main {
                         System.out.println("Non sono ancora presenti contratti venduti");
                     }
                     break;
-
+                case 7:
+                    if (contrattiVenduti != 0) {
+                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
+                        if (posizione != -1) {
+                            System.out.println("Inserisci la durata della chiamata (in minuti): ");
+                            double durataChiamata = keyboard.nextInt();
+                            gestore[posizione].decrementaSaldo(durataChiamata);
+                        } else {
+                            System.out.println("Contatto inesistente");
+                        }
+                    } else {
+                        System.out.println("Non sono ancora presenti contratti venduti");
+                    }
+                    break;
+                case 8:
+                    if (contrattiVenduti != 0) {
+                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
+                        if (posizione != -1) {
+                            System.out.println("Inserisci l'importo della ricarica: ");
+                            double importoRicarica = keyboard.nextDouble();
+                            gestore[posizione].incrementaSaldo(importoRicarica);
+                        } else {
+                            System.out.println("Contatto inesistente");
+                        }
+                    } else {
+                        System.out.println("Non sono ancora presenti contratti venduti");
+                    }
+                    break;
 
                 default:
                     fine = false;
@@ -202,4 +232,3 @@ public class Main {
         return --contrattiVenduti;
     }
 }
-
