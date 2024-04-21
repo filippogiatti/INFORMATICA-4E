@@ -19,24 +19,33 @@ public class utility {
             e.printStackTrace();
         }
     }
-    public static int menu(String[] opzioni, Scanner keyboard)
-    {
-        int scelta;
+    public static int menu(String[] opzioni, Scanner keyboard) {
+        int scelta = -1; // Inizializziamo scelta con un valore di default
 
         do {
             ClrScr();
-            System.out.println("=== "+opzioni[0]+" ===");
-            for(int i=1;i<opzioni.length;i++)
-            {
+            System.out.println("=== " + opzioni[0] + " ===");
+            for (int i = 1; i < opzioni.length; i++) {
                 System.out.println(opzioni[i]);
             }
-            scelta = Integer.parseInt(keyboard.nextLine());
-            if(scelta<1 || scelta>opzioni.length-1)
-            {
-                System.out.println("Valore errato. Riprova");
+            String input = keyboard.nextLine();
+            if (input.trim().isEmpty()) {
+                System.out.println("Input non valido. Riprova.");
                 Wait(3);
+                continue;
             }
-        }while(scelta<1 || scelta>opzioni.length-1);
+            try {
+                scelta = Integer.parseInt(input);
+                if (scelta < 1 || scelta > opzioni.length - 1) {
+                    System.out.println("Valore errato. Riprova");
+                    Wait(3);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Input non valido. Riprova.");
+                Wait(3);
+                // Non è necessario fare nulla qui, scelta rimane -1
+            }
+        } while (scelta < 1 || scelta > opzioni.length - 1);
 
         return scelta;
     }
