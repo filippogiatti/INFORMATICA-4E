@@ -1,0 +1,13 @@
+ANALISI TECNICA
+Il software di partenza ovviamente conterrà tutti i metodi e le classi presenti nel software base della rubrica fatto in laboratorio:
+Inserimento contatto
+Rimozione contatto
+Ricerca di un contatto (anche tramite più criteri)
+Visualizzazione della rubrica
+Quando si inserisce un contatto verrà richiesto che tipo di visibilità gli si vorrà dare(normale o privato).
+Contatto:
+nascondiContatto() per nascondere il contatto dalla visualizzazione.
+contNascosto() restituisce se il contatto in questione è nascosto oppure no.
+mostraContatto() per rendere il contatto visualizzabile normalmente.
+ListaChiamate:
+visualizzaChiamate() permette di visualizzare la lista delle chiamate. (una chiamata con un contatto normale verrà automaticamente salvata nella lista mentre una chiamata con un contatto nascosto non verrà inserita nella lista delle chiamate).

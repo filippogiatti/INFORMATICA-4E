@@ -1,0 +1,29 @@
+ANALISI FUNZIONALE
+
+OBIETTIVI: Permettere all’utente nel software della rubrica di visualizzare dei contatti visibili solo a lui tramite l’inserimento di una password da dare in input al programma. 
+VINCOLI: La liste delle chiamate non dovrà contenere le chiamate con contatti “segreti”. Un contatto tra quelli nascosti può essere reso visibile sempre e viceversa.
+
+
+1. Gestione della rubrica telefonica:
+   L'utente deve essere in grado di aggiungere, visualizzare, aggiornare e cancellare i contatti nella rubrica telefonica.
+   Ogni contatto deve avere un nome e un numero di telefono associato.
+   
+2. Gestione dei contatti nascosti:
+   L'utente deve poter nascondere e mostrare i contatti tramite l'inserimento di una password.
+   Ogni contatto deve avere la possibilità di essere contrassegnato come nascosto o visibile.
+   
+3. Gestione della lista delle ultime chiamate:
+   Il software deve tenere traccia delle ultime chiamate effettuate o ricevute.
+   Le chiamate devono essere memorizzate e mostrate all'utente.
+
+4. Riconoscimento dell'utente:
+   L'utente deve essere in grado di inserire una password per accedere ai contatti nascosti (la password verrà richiesta al primo accesso).
+   Il sistema deve autenticare l'utente ed effettuare l'accesso solo se la password inserita è corretta.
+
+5. Reimpostazione delle impostazioni:
+   L'utente deve avere la possibilità di tornare alla situazione iniziale, ripristinando la visualizzazione dei contatti nascosti alla loro condizione predefinita.
+   
+6. Interfaccia utente:
+   Il software deve fornire un'interfaccia intuitiva e facile da usare per navigare tra le funzionalità e gestire i contatti.
+   
+Per gestire e implementare il software ovviamente sarà necessario progettare un codice provvisto di metodi e classi che varieranno in quantità in base alle richieste del cliente.

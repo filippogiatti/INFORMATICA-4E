@@ -1,0 +1,9 @@
+ANALISI DEI REQUISITI
+Progettare un software che permetta ad un utente di poter gestire la propria rubrica telefonica, permettendo, tramite l’inserimento di un’apposita password, di visualizzare anche eventuali contatti nascosti. 
+Tramite un altro metodo appositamente progettato consenta di tornare alla situazione iniziale.
+
+Attenzione: 
+
+   Un singolo contatto nascosto può essere reso sempre visibile e viceversa.
+   Occorrerà gestire la lista delle ultime chiamate, in modo che possa essere coerente con quanto sopra richiesto
+   Scrivere il codice (java-like) di una parte saliente del software, motivandone la scelta.
