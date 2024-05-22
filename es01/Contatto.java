@@ -13,7 +13,7 @@ public class Contatto {
     }
 
     void decrementaSaldo(double durataChiamata) {
-        saldo -= durataChiamata * 0.10; // Esempio: 0.10€ per minuto
+        saldo -= durataChiamata * 0.10;
     }
 
     String stampa() {
