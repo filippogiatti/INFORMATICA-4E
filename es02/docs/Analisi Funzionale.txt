@@ -1,0 +1,14 @@
+Analisi Funzionale
+Descrizione del Problema
+Dato un array disordinato contenente numeri interi positivi non ripetuti (con dimensioni comprese tra 10 e 11 elementi, valori compresi tra 1 e 30), l'obiettivo è ordinare in ordine crescente solo i numeri pari presenti nell'array. I numeri dispari devono mantenere la loro posizione originale, così come l'ultimo valore (che può essere pari o dispari).
+
+Vincoli e Considerazioni Utili
+Dimensione dell'Array: L'array avrà una dimensione minima di 10 elementi e massima di 11 elementi.
+Valori dell'Array: Gli elementi dell'array sono numeri interi positivi non ripetuti, compresi tra 1 e 30.
+Ordinamento: Solo i numeri pari devono essere ordinati in ordine crescente.
+Posizione Fissa: I numeri dispari devono mantenere la loro posizione originale.
+Ultimo Elemento: L'ultimo elemento dell'array deve mantenere la sua posizione originale, indipendentemente dal fatto che sia pari o dispari.
+Strategia Risolutiva
+Identificazione dei Numeri Pari: Scansionare l'array e identificare le posizioni e i valori dei numeri pari, escluso l'ultimo elemento.
+Ordinamento dei Pari: Ordinare i numeri pari identificati in ordine crescente.
+Sostituzione Ordinata: Sostituire i numeri pari originali con quelli ordinati nelle loro posizioni originali, mantenendo i numeri dispari e l'ultimo elemento nella loro posizione.

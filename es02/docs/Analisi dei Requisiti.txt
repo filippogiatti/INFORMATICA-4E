@@ -1,0 +1,9 @@
+Analisi dei Requisiti
+Obiettivo
+L'obiettivo dell'esercizio è implementare un software che prenda in input un array di numeri interi positivi non ripetuti (con dimensione compresa tra 10 e 11 elementi e valori compresi tra 1 e 30) e ordini in ordine crescente solo i numeri pari, mantenendo i numeri dispari e l'ultimo elemento (sia esso pari o dispari) nelle loro posizioni originali.
+
+Vincoli e Considerazioni
+Dimensione dell'array: L'array deve contenere tra 10 e 11 elementi.
+Intervallo dei valori: Ogni numero nell'array deve essere compreso tra 1 e 30.
+Unicità dei valori: I numeri nell'array devono essere unici, ovvero non possono ripetersi.
+Posizioni da mantenere: I numeri dispari devono rimanere nelle loro posizioni originali. L'ultimo elemento dell'array deve rimanere nella sua posizione originale indipendentemente dal fatto che sia pari o dispari.

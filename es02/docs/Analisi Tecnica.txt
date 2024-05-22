@@ -1,0 +1,51 @@
+Analisi Tecnica
+Obiettivi
+Ricezione e Validazione dell'Input:
+
+Ricevere un array di numeri interi positivi non ripetuti, con dimensione 10.
+Verificare che ogni numero inserito sia compreso tra 1 e 30 e che non sia duplicato.
+Ordinamento dei Numeri Pari:
+
+Identificare le posizioni e i valori dei numeri pari, escluso l'ultimo elemento dell'array.
+Ordinare i numeri pari in ordine crescente.
+Sostituzione e Output:
+
+Sostituire i numeri pari ordinati nelle loro posizioni originali.
+Lasciare i numeri dispari e l'ultimo elemento nelle loro posizioni originali.
+Stampare l'array risultante.
+Strategie Risolutive
+Ricezione e Validazione dell'Input:
+
+Inizializzare un array vett di dimensione n (10).
+Per ciascun elemento da inserire nell'array:
+Leggere un numero da tastiera.
+Verificare che il numero sia compreso tra 1 e 30.
+Verificare che il numero non sia già presente nell'array.
+Aggiungere il numero all'array se valido, altrimenti richiedere un nuovo numero.
+Identificazione e Ordinamento dei Numeri Pari:
+
+Scansionare l'array vett fino al penultimo elemento:
+Identificare i numeri pari e memorizzarli in una lista temporanea insieme alle loro posizioni.
+Ordinare i numeri pari in ordine crescente usando un semplice algoritmo di ordinamento (es. selezione).
+Sostituzione e Output Finale:
+
+Sostituire gli elementi dell'array vett alle posizioni originali dei numeri pari con i numeri pari ordinati.
+Stampare l'array risultante.
+Algoritmo Dettagliato
+Ricezione e Validazione dell'Input:
+
+Inizializzare un array vett di dimensione n (10).
+Per ciascun elemento da inserire nell'array:
+Leggere un numero da tastiera.
+Verificare che il numero sia compreso tra 1 e 30.
+Verificare che il numero non sia già presente nell'array.
+Aggiungere il numero all'array se valido, altrimenti richiedere un nuovo numero.
+Identificazione e Ordinamento dei Numeri Pari:
+
+Scansionare l'array vett fino al penultimo elemento:
+Identificare i numeri pari e memorizzarli in una lista temporanea insieme alle loro posizioni.
+Ordinare i numeri pari in ordine crescente usando un semplice algoritmo di ordinamento (es. selezione).
+Sostituzione e Output Finale:
+
+Sostituire gli elementi dell'array vett alle posizioni originali dei numeri pari con i numeri pari ordinati.
+Stampare l'array risultante.
