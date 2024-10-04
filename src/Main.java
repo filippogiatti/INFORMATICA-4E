@@ -1,148 +1,79 @@
-
-import static tools.utility.menu;
-
+import utility.Tools; // Import della classe Tools
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String[] operazioni = {"VODAFONE",
-                "[1] Inserimento",
-                "[2] Visualizzazione",
-                "[3] Ricerca",
-                "[4] Ricerca Numero telefonico",
-                "[5] Modifica contatto",
-                "[6] Cancellazione",
-                "[7] Telefonate",
-                "[8] Ricarica",
-                "[9] Fine"};
-        boolean Sitel = true;
-        final int nMax = 3;
-        int contrattiVenduti = 0;
-        int posizione;
-        Contatto[] gestore = new Contatto[nMax];
-
-
         Scanner keyboard = new Scanner(System.in);
-
+        Random casuale = new Random();
         boolean fine = true;
+        final int NMAX = 10;
+        final int RANGERANDOM = 20;
+        int numeri[] = null;
+        int numeroRicercato = 0;
+        String[] opzioni = {
+                "Menu Principale",
+                "Genera Numeri Random",
+                "Visualizza Array",
+                "Ricerca di un Numero",
+                "Raddoppia Vettore",
+                "Inserisci Numero",
+                "Cancellazione (sostituisci con zero)",
+                "Cancellazione (ricompattare)",
+                "Ordinare Array (metodo selezione)",
+                "Fine"
+        };
+
         do {
-            switch (menu(operazioni, keyboard)) {
+            switch (Tools.Menu(opzioni, keyboard)) { // Usa il metodo Menu dalla classe Tools
                 case 1:
-
-                    if (contrattiVenduti < nMax) {
-                        //firma contratto
-                        gestore[contrattiVenduti] = leggiPersona(Sitel, keyboard);
-                        contrattiVenduti++;
+                    numeri = generaNumeriUnici(RANGERANDOM, NMAX);
+                    System.out.println("Numeri generati casualmente.");
+                    break;
+                case 2:
+                    visualizza(numeri);
+                    break;
+                case 3:
+                    System.out.println("Inserisci il numero da cercare:");
+                    numeroRicercato = keyboard.nextInt();
+                    int posizione = ricercaNumero(numeri, NMAX, numeroRicercato);
+                    if (posizione == -1) {
+                        System.out.println("Il numero non è presente nell'array.");
                     } else {
-                        System.out.println("Non ci sono più contratti da vendere");
+                        System.out.println("Numero trovato alla posizione " + (posizione + 1));
                     }
                     break;
-                case 2: {
-                    if(contrattiVenduti!=0){
-                        visualizza(gestore, contrattiVenduti);
-                    }else{
-                        System.out.println("Non ci sono più contatti");
-                    }
-                    break;
-                }
-
-                case 3: {
-                    if (contrattiVenduti != 0) {
-                        //Ci sono contratti venduti
-                        //lettura, ricerca, visualizzazione
-                        if (ricerca(gestore, leggiPersona(false, keyboard), contrattiVenduti)) {
-                            System.out.println("Il contatto esiste");
-
-                        } else {
-                            System.out.println("Il contatto non esiste");
-                        }
-                    } else {
-                        System.out.println("Non sono ancora presenti contratti venduti");
-                    }
-                    break;
-                }
-
                 case 4:
-                    if (contrattiVenduti != 0) {
-                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
-                        if (posizione != -1) {
-                            System.out.println(gestore[posizione].cognome + " " + gestore[posizione].nome + ": " + gestore[posizione].telefono);
-                        } else {
-                            System.out.println("Contatto inesistente");
-                        }
-                    } else {
-                        System.out.println("Non sono ancora presenti contratti venduti");
-                    }
+                    numeri = raddoppiaVettore(numeri, NMAX);
+                    System.out.println("Vettore raddoppiato.");
                     break;
-
                 case 5:
-                    Contatto numero = new Contatto();
-                    int scelta;
-                    if (contrattiVenduti != 0) {
-                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
-                        if (posizione != -1) {
-                            System.out.println("Vuoi modificare il numero telefonico (si = 1 | no = 0): ");
-                            scelta = keyboard.nextInt();
-                            keyboard.nextLine();
-                            if (scelta == 1) {
-                                System.out.println("Modifica numero telefonico: ");
-                                numero.telefono = keyboard.nextLine();
-                                gestore[posizione].telefono = numero.telefono;
-                            } else {
-                                System.out.println("Numero telefonico non modificato");
-                            }
+                    while (findZero(numeri) >= 0) {
+                        numeroRicercato = casuale.nextInt(0, 200) + 1;
+                        if (aggiungiElemento(numeri, numeroRicercato) >= 0) {
+                            System.out.println("Inserimento riuscito.");
                         } else {
-                            System.out.println("Contatto inesistente");
+                            System.out.println("Inserimento fallito.");
                         }
-                    } else {
-                        System.out.println("Non sono ancora presenti contratti venduti");
                     }
                     break;
                 case 6:
-                    if (contrattiVenduti != 0) {
-                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
-                        if (posizione != -1)
-                        {
-                            contrattiVenduti = cancellazione(gestore, posizione, contrattiVenduti);
-
-                        } else
-                        {
-                            System.out.println("Contatto inesistente");
-                        }
-                    } else
-                    {
-                        System.out.println("Non sono ancora presenti contratti venduti");
-                    }
+                    System.out.println("Inserisci il numero da cancellare (sarà sostituito con zero):");
+                    numeroRicercato = keyboard.nextInt();
+                    cancellaConZero(numeri, numeroRicercato);
+                    visualizza(numeri);
                     break;
                 case 7:
-                    if (contrattiVenduti != 0) {
-                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
-                        if (posizione != -1) {
-                            System.out.println("Inserisci la durata della chiamata (in minuti): ");
-                            double durataChiamata = keyboard.nextInt();
-                            gestore[posizione].decrementaSaldo(durataChiamata);
-                        } else {
-                            System.out.println("Contatto inesistente");
-                        }
-                    } else {
-                        System.out.println("Non sono ancora presenti contratti venduti");
-                    }
+                    System.out.println("Inserisci il numero da cancellare (gli elementi verranno ricompattati):");
+                    numeroRicercato = keyboard.nextInt();
+                    cancellaRicompattando(numeri, numeroRicercato);
+                    visualizza(numeri);
                     break;
                 case 8:
-                    if (contrattiVenduti != 0) {
-                        posizione = RicercaIndex(gestore, leggiPersona(false, keyboard), contrattiVenduti);
-                        if (posizione != -1) {
-                            System.out.println("Inserisci l'importo della ricarica: ");
-                            double importoRicarica = keyboard.nextDouble();
-                            gestore[posizione].incrementaSaldo(importoRicarica);
-                        } else {
-                            System.out.println("Contatto inesistente");
-                        }
-                    } else {
-                        System.out.println("Non sono ancora presenti contratti venduti");
-                    }
+                    ordinaSelezione(numeri);
+                    System.out.println("Array ordinato:");
+                    visualizza(numeri);
                     break;
-
                 default:
                     fine = false;
                     break;
@@ -150,86 +81,121 @@ public class Main {
         } while (fine);
     }
 
-    private static Contatto leggiPersona(boolean Sitel, Scanner keyboard) {
-        //Sitel è true quando dobbiamo leggere
-        String[] tipoC = {"Telefono", "1]abitazione", "2]cellulare", "3]aziendale"};
-        //Istanziato un oggetto di tipo contatto:
-        Contatto persona = new Contatto();
-        System.out.println("\nInserisci il nome: ");
-        persona.nome = keyboard.nextLine();
-        System.out.println("\nInserisci il cognome: ");
-        persona.cognome = keyboard.nextLine();
+    // Metodo per generare numeri casuali unici
+    private static int[] generaNumeriUnici(int RangeRandom, int NMAX) {
+        int[] numeri = new int[NMAX];
+        Random casuale = new Random();
 
-        if (Sitel) {
-            System.out.println("\nInserisci il numero di telefono: ");
-            persona.telefono = keyboard.nextLine();  //Vado a leggere il numero di telefono
-            //I valori assegnati all'attributo sono compresi nel range
-            switch (menu(tipoC, keyboard)) {
-                case 1 -> persona.tipo = tipoContratto.abitazione;
-                case 2 -> persona.tipo = tipoContratto.cellulare;
-                default -> persona.tipo = tipoContratto.aziendale;
+        for (int i = 0; i < NMAX; i++) {
+            int nuovoNumero;
+            boolean trovato;
 
+            do {
+                trovato = false;
+                nuovoNumero = casuale.nextInt(RangeRandom) + 1;
+                for (int j = 0; j < i; j++) {
+                    if (nuovoNumero == numeri[j]) {
+                        trovato = true;
+                        break;
+                    }
+                }
+            } while (trovato);
+
+            numeri[i] = nuovoNumero;
+        }
+
+        return numeri;
+    }
+
+    // Metodo per raddoppiare il vettore
+    private static int[] raddoppiaVettore(int[] numeri, int NMAX) {
+        int newDim = 2 * NMAX;
+        int[] nuovoVettore = new int[newDim];
+        for (int i = 0; i < numeri.length; i++) {
+            nuovoVettore[i] = numeri[i];
+        }
+        return nuovoVettore;
+    }
+
+    // Metodo che inserisce un numero nella posizione mancante
+    private static int aggiungiElemento(int[] numeri, int elementoInserito) {
+        int inserito = -1;
+        if (findZero(numeri) != -1 && ricercaNumero(numeri, numeri.length, elementoInserito) == -1) {
+            numeri[findZero(numeri)] = elementoInserito;
+            inserito = 0;
+        }
+        return inserito;
+    }
+
+    // Metodo per trovare uno zero nel vettore
+    private static int findZero(int[] numeri) {
+        return ricercaNumero(numeri, numeri.length, 0);
+    }
+
+    // Metodo di ricerca del numero
+    private static int ricercaNumero(int[] numeri, int NMAX, int numeroRicercato) {
+        for (int i = 0; i < NMAX; i++) {
+            if (numeri[i] == numeroRicercato) {
+                return i;
             }
         }
-
-        return persona;
+        return -1;
     }
 
-    private static boolean ricerca(Contatto[] gestore, Contatto contatto, int contrattiVenduti) {
-        //Controllo se il nome e il cognome del contatto e ugale al nome e cogome del gestore
-        boolean ricerca = false;
+    // Metodo per cancellare un numero sostituendolo con zero
+    private static void cancellaConZero(int[] numeri, int numero) {
+        int posizione = ricercaNumero(numeri, numeri.length, numero);
+        if (posizione != -1) {
+            numeri[posizione] = 0;
+            System.out.println("Numero " + numero + " sostituito con zero.");
+        } else {
+            System.out.println("Numero non trovato.");
+        }
+    }
 
-        for (int i = 0; i < contrattiVenduti; i++) {
-            if (contatto.nome.equals(gestore[i].nome) && contatto.cognome.equals(gestore[i].cognome)) {
-                ricerca = true;
+    // Metodo per cancellare un numero e ricompattare gli elementi
+    private static void cancellaRicompattando(int[] numeri, int numero) {
+        int posizione = ricercaNumero(numeri, numeri.length, numero);
+        if (posizione != -1) {
+            for (int i = posizione; i < numeri.length - 1; i++) {
+                numeri[i] = numeri[i + 1];
+            }
+            numeri[numeri.length - 1] = 0;
+            System.out.println("Numero " + numero + " cancellato e array ricompattato.");
+        } else {
+            System.out.println("Numero non trovato.");
+        }
+    }
+
+    // Metodo per ordinare l'array con il Selection Sort
+    private static void ordinaSelezione(int[] numeri) {
+        for (int i = 0; i < numeri.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < numeri.length; j++) {
+                if (numeri[j] < numeri[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int temp = numeri[i];
+            numeri[i] = numeri[minIndex];
+            numeri[minIndex] = temp;
+        }
+    }
+
+    // Metodo per visualizzare l'array
+    private static void visualizza(int[] numeri) {
+        int numRiga = 5;
+        int contatore = 0;
+
+        for (int numero : numeri) {
+            System.out.print(numero + "\t");
+            contatore++;
+
+            if (contatore == numRiga) {
+                contatore = 0;
+                System.out.println();
             }
         }
-        return ricerca;
-    }
-
-    private static int RicercaIndex(Contatto[] gestore, Contatto ricerca, int contrattiVenduti) {
-
-        int indice = -1;
-
-        for (int i = 0; i < contrattiVenduti; i++) {
-            if (ricerca.nome.equals(gestore[i].nome) && ricerca.cognome.equals(gestore[i].cognome)) {
-                indice = i;
-                break;
-            }
-        }
-        return indice;
-    }
-
-    private static void visualizza(Contatto[] gestore, int contrattiVenduti) {
-
-        for (int i = 0; i < contrattiVenduti; i++) {
-            System.out.println(gestore[i].stampa());
-        }
-
-    }
-
-    private static int contaContattiAbitazione(Contatto[] gestore, int contrattiVenduti) {
-        int contAbitazione = 0;
-        for (int i = 0; i < contrattiVenduti; i++) {
-            if (gestore[i].tipo == tipoContratto.abitazione) {
-                contAbitazione++;
-            }
-
-
-        }
-        return contAbitazione;
-    }
-
-    public static void ricerca(Contatto[] gestore) {
-        System.out.println("Inserisci il nome del contatto");
-    }
-
-    public static int cancellazione(Contatto[] gestore, int posizione, int contrattiVenduti) {
-        if (posizione != gestore.length - 1) {
-            for (int i = 0; i < contrattiVenduti - 1; i++) {
-                gestore[i] = gestore[i++];
-            }
-        }
-        return --contrattiVenduti;
+        System.out.println();
     }
 }
