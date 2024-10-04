@@ -2,7 +2,7 @@ import utility.Tools; // Import della classe Tools
 import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+public class numeriRandom {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         Random casuale = new Random();
