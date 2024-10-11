@@ -47,7 +47,7 @@ public class Main {
             // Inserimento del genere (in un ciclo finché non viene inserito correttamente)
             boolean genereValido = false;
             while (!genereValido) {
-                System.out.println("Scegli il genere del libro: (ROMANZO, FANTASY, SAGGISTICA, THRILLER, STORICO)");
+                System.out.println("Scegli il genere del libro: (ROMANZO, MANUALE, THRILLER,)");
                 try {
                     String genereInput = scanner.nextLine().toUpperCase();
                     nuovoLibro.tipologia = Genere.valueOf(genereInput); // Converte l'input a enum
