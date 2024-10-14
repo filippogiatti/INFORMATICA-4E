@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import mensola.Libro;
 import mensola.Genere;
@@ -11,14 +12,26 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int nLibri;
+        int nLibri = 0;
 
-        // Chiedere all'utente quanti libri vuole inserire
+        // Chiedere all'utente quanti libri vuole inserire con gestione delle eccezioni
+        boolean inputValido = false;
         do {
-            System.out.println("Quanti libri vuoi inserire? max 20 \n");
-            nLibri = scanner.nextInt();
-            scanner.nextLine(); // Consuma newline
-        } while (nLibri < 0 || nLibri > MAX_LIBRI);
+            try {
+                System.out.println("Quanti libri vuoi inserire? max 20");
+                nLibri = scanner.nextInt();
+                scanner.nextLine(); // Consuma newline
+                if (nLibri < 0 || nLibri > MAX_LIBRI) {
+                    throw new IllegalArgumentException("Il numero di libri deve essere compreso tra 0 e 20.");
+                }
+                inputValido = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: devi inserire un numero intero.");
+                scanner.nextLine(); // Consuma l'input errato
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!inputValido);
 
         // Ciclo per inserire i libri
         for (int i = 0; i < nLibri; i++) {
@@ -39,25 +52,39 @@ public class Main {
                 continue;
             }
 
-            // Inserimento del numero di pagine
-            System.out.println("Inserisci il numero di pagine: ");
-            nuovoLibro.numeroPagine = scanner.nextInt();
-            scanner.nextLine(); // Consuma newline
+            // Inserimento del numero di pagine con gestione delle eccezioni
+            boolean pagineValide = false;
+            while (!pagineValide) {
+                try {
+                    System.out.println("Inserisci il numero di pagine: ");
+                    nuovoLibro.numeroPagine = scanner.nextInt();
+                    scanner.nextLine(); // Consuma newline
+                    if (nuovoLibro.numeroPagine <= 0) {
+                        throw new IllegalArgumentException("Il numero di pagine deve essere maggiore di zero.");
+                    }
+                    pagineValide = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Errore: devi inserire un numero intero.");
+                    scanner.nextLine(); // Consuma l'input errato
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
 
-            // Inserimento del genere (in un ciclo finché non viene inserito correttamente)
+            // Inserimento del genere
             boolean genereValido = false;
             while (!genereValido) {
-                System.out.println("Scegli il genere del libro: (ROMANZO, MANUALE, THRILLER,)");
+                System.out.println("Scegli il genere del libro: (ROMANZO, MANUALE, THRILLER)");
                 try {
                     String genereInput = scanner.nextLine().toUpperCase();
                     nuovoLibro.tipologia = Genere.valueOf(genereInput); // Converte l'input a enum
-                    genereValido = true; // Esce dal ciclo se il genere è valido
+                    genereValido = true;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Genere non valido. Riprova.");
                 }
             }
 
-            // Inserimento della data di pubblicazione (in un ciclo finché non viene inserita correttamente)
+            // Inserimento della data di pubblicazione con gestione delle eccezioni
             boolean dataValida = false;
             while (!dataValida) {
                 System.out.println("Inserisci la data di pubblicazione (dd/MM/yyyy): ");
@@ -65,14 +92,19 @@ public class Main {
                 try {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     nuovoLibro.dataPubblicazione = LocalDate.parse(dataInput, formatter); // Converte la stringa in LocalDate
-                    dataValida = true; // Esce dal ciclo se la data è valida
+                    dataValida = true;
                 } catch (DateTimeParseException e) {
                     System.out.println("Formato data non valido. Riprova.");
                 }
             }
 
-            // Inserisci il libro nella mensola
-            mensola[i] = nuovoLibro;
+            // Inserisci il libro nella mensola con gestione di array overflow
+            try {
+                mensola[i] = nuovoLibro;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Errore: hai superato il numero massimo di libri consentito.");
+                break;
+            }
         }
 
         // Visualizzare i libri inseriti
