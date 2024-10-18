@@ -12,29 +12,11 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int nLibri = 0;
+        int numeroLibriInseriti = 0;
+        boolean continuaInserimento = true;
 
-        // Chiedere all'utente quanti libri vuole inserire con gestione delle eccezioni
-        boolean inputValido = false;
-        do {
-            try {
-                System.out.println("Quanti libri vuoi inserire? max 20");
-                nLibri = scanner.nextInt();
-                scanner.nextLine(); // Consuma newline
-                if (nLibri < 0 || nLibri > MAX_LIBRI) {
-                    throw new IllegalArgumentException("Il numero di libri deve essere compreso tra 0 e 20.");
-                }
-                inputValido = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Errore: devi inserire un numero intero.");
-                scanner.nextLine(); // Consuma l'input errato
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        } while (!inputValido);
-
-        // Ciclo per inserire i libri
-        for (int i = 0; i < nLibri; i++) {
+        // Ciclo per inserire i libri fino a quando l'utente decide di fermarsi
+        while (continuaInserimento && numeroLibriInseriti < MAX_LIBRI) {
             Libro nuovoLibro = new Libro();
 
             // Inserimento del titolo
@@ -48,7 +30,6 @@ public class Main {
             // Controllo duplicati
             if (esisteLibro(nuovoLibro)) {
                 System.out.println("Errore: esiste già un libro con lo stesso titolo e autore.");
-                i--; // Decrementare il contatore per ripetere l'inserimento
                 continue;
             }
 
@@ -98,17 +79,92 @@ public class Main {
                 }
             }
 
-            // Inserisci il libro nella mensola con gestione di array overflow
-            try {
-                mensola[i] = nuovoLibro;
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Errore: hai superato il numero massimo di libri consentito.");
-                break;
+            // Inserisci il libro nella mensola
+            mensola[numeroLibriInseriti] = nuovoLibro;
+            numeroLibriInseriti++;
+
+            // Chiedere all'utente se vuole continuare ad inserire libri
+            if (numeroLibriInseriti < MAX_LIBRI) {
+                System.out.println("Vuoi inserire un altro libro? (si/no)");
+                String risposta = scanner.nextLine().toLowerCase();
+                if (!risposta.equals("si")) {
+                    continuaInserimento = false;
+                }
+            } else {
+                System.out.println("Hai raggiunto il numero massimo di libri consentito.");
             }
         }
 
         // Visualizzare i libri inseriti
-        visualizzaLibri();
+        visualizzaLibri(scanner);
+    }
+
+    // Metodo per modificare il numero di pagine di un libro cercandolo per titolo
+    private static void modificaPagine(Scanner scanner) {
+        System.out.println("Inserisci il titolo del libro di cui vuoi modificare il numero di pagine: ");
+        String titolo = scanner.nextLine();
+        Libro libro = cercaLibroPerTitolo(titolo);
+
+        if (libro != null) {
+            try {
+                System.out.println("Inserisci il nuovo numero di pagine: ");
+                int nuovePagine = scanner.nextInt();
+                scanner.nextLine(); // Consuma newline
+                if (nuovePagine <= 0) {
+                    throw new IllegalArgumentException("Il numero di pagine deve essere maggiore di zero.");
+                }
+                libro.numeroPagine = nuovePagine;
+                System.out.println("Numero di pagine modificato correttamente.");
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: devi inserire un numero intero.");
+                scanner.nextLine(); // Consuma l'input errato
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Libro non trovato.");
+        }
+    }
+
+    // Metodo per cancellare un libro cercandolo per titolo
+    private static void cancellaLibro(Scanner scanner) {
+        System.out.println("Inserisci il titolo del libro da cancellare: ");
+        String titolo = scanner.nextLine();
+        for (int i = 0; i < mensola.length; i++) {
+            if (mensola[i] != null && mensola[i].getTitolo().equalsIgnoreCase(titolo)) {
+                mensola[i] = null; // Cancella il libro
+                System.out.println("Libro cancellato correttamente.");
+                return;
+            }
+        }
+        System.out.println("Libro non trovato.");
+    }
+
+    // Metodo per visualizzare i libri di un autore
+    private static void visualizzaLibriAutore(Scanner scanner) {
+        System.out.println("Inserisci il nome dell'autore: ");
+        String autore = scanner.nextLine();
+        boolean trovato = false;
+        System.out.println("Libri dell'autore " + autore + ":");
+        for (Libro libro : mensola) {
+            if (libro != null && libro.getAutore().equalsIgnoreCase(autore)) {
+                System.out.println(libro);
+                trovato = true;
+            }
+        }
+        if (!trovato) {
+            System.out.println("Nessun libro trovato per questo autore.");
+        }
+    }
+
+    // Metodo per cercare un libro per titolo
+    private static Libro cercaLibroPerTitolo(String titolo) {
+        for (Libro libro : mensola) {
+            if (libro != null && libro.getTitolo().equalsIgnoreCase(titolo)) {
+                return libro;
+            }
+        }
+        return null;
     }
 
     // Metodo per controllare se un libro già esiste (stesso titolo e autore)
@@ -122,12 +178,51 @@ public class Main {
     }
 
     // Metodo per visualizzare la lista dei libri
-    private static void visualizzaLibri() {
-        System.out.println("\nLibri nella mensola:");
-        for (Libro libro : mensola) {
-            if (libro != null) {
-                System.out.println(libro);
+    private static void visualizzaLibri(Scanner scanner) {
+        boolean continua = true;
+        while (continua) {
+            try {
+                System.out.println("\nCosa vuoi fare?");
+                System.out.println("1. Visualizzare tutti i libri");
+                System.out.println("2. Modificare il numero di pagine di un libro");
+                System.out.println("3. Cancellare un libro");
+                System.out.println("4. Visualizzare i libri di un autore");
+                System.out.println("5. Esci");
+                System.out.print("Scelta: ");
+
+                int scelta = scanner.nextInt();  // Possibile lancio di InputMismatchException
+                scanner.nextLine(); // Consuma newline
+
+                switch (scelta) {
+                    case 1:
+                        System.out.println("\nLibri nella mensola:");
+                        for (Libro libro : mensola) {
+                            if (libro != null) {
+                                System.out.println(libro);
+                            }
+                        }
+                        break;
+                    case 2:
+                        modificaPagine(scanner);
+                        break;
+                    case 3:
+                        cancellaLibro(scanner);
+                        break;
+                    case 4:
+                        visualizzaLibriAutore(scanner);
+                        break;
+                    case 5:
+                        continua = false;
+                        break;
+                    default:
+                        System.out.println("Scelta non valida. Inserisci un numero tra 1 e 5.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: input non valido. Inserisci un numero tra 1 e 5.");
+                scanner.nextLine(); // Consuma l'input errato
             }
         }
     }
+
 }
