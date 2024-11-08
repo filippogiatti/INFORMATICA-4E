@@ -26,37 +26,47 @@ public class Main {
                     lunaPark.entraPersona();
                     break;
                 case 2:
-                    System.out.print("Inserisci il numero del biglietto della persona che esce: ");
-                    int bigliettoUscita = scanner.nextInt();
-                    scanner.nextLine(); // Consuma il newline
-                    lunaPark.esciPersona(bigliettoUscita);
+                    try {
+                        System.out.print("Inserisci il numero del biglietto della persona che esce: ");
+                        int bigliettoUscita = Integer.parseInt(scanner.nextLine());
+                        lunaPark.esciPersona(bigliettoUscita);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Errore: Inserisci un numero valido per il biglietto.");
+                    }
                     break;
                 case 3:
-                    System.out.print("Inserisci il numero del biglietto della persona: ");
-                    int biglietto = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Inserisci il nome della giostra (Ruota Panoramica, Autoscontro, Ottovolante, Tagadà): ");
-                    String giostra = scanner.nextLine();
+                    try {
+                        System.out.print("Inserisci il numero del biglietto della persona: ");
+                        int biglietto = Integer.parseInt(scanner.nextLine());
 
-                    // Richiede l’orario in un formato valido "HH:mm"
-                    String orario;
-                    while (true) {
-                        System.out.print("Inserisci l'orario in cui è stata provata (formato HH:mm): ");
-                        orario = scanner.nextLine();
-                        if (isValidTime(orario)) {
-                            break;
-                        } else {
-                            System.out.println("Orario non valido. Riprova.");
+                        System.out.print("Inserisci il nome della giostra (Ruota Panoramica, Autoscontro, Ottovolante, Tagadà): ");
+                        String giostra = scanner.nextLine();
+
+                        // Richiede l’orario in un formato valido "HH:mm"
+                        String orario;
+                        while (true) {
+                            System.out.print("Inserisci l'orario in cui è stata provata (formato HH:mm): ");
+                            orario = scanner.nextLine();
+                            if (isValidTime(orario)) {
+                                break;
+                            } else {
+                                System.out.println("Orario non valido. Riprova.");
+                            }
                         }
-                    }
 
-                    lunaPark.personaProvaGiostra(biglietto, giostra, orario);
+                        lunaPark.personaProvaGiostra(biglietto, giostra, orario);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Errore: Inserisci un numero valido per il biglietto.");
+                    }
                     break;
                 case 4:
-                    System.out.print("Inserisci il numero del biglietto della persona: ");
-                    int bigliettoVisualizza = scanner.nextInt();
-                    scanner.nextLine();
-                    lunaPark.visualizzaGiostreProvate(bigliettoVisualizza);
+                    try {
+                        System.out.print("Inserisci il numero del biglietto della persona: ");
+                        int bigliettoVisualizza = Integer.parseInt(scanner.nextLine());
+                        lunaPark.visualizzaGiostreProvate(bigliettoVisualizza);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Errore: Inserisci un numero valido per il biglietto.");
+                    }
                     break;
                 case 5:
                     continua = false;
@@ -73,6 +83,7 @@ public class Main {
             LocalTime.parse(orario, DateTimeFormatter.ofPattern("HH:mm"));
             return true;
         } catch (DateTimeParseException e) {
+            System.out.println("Errore: formato dell'orario non valido. Usa il formato HH:mm.");
             return false;
         }
     }
