@@ -1,44 +1,25 @@
 import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) throws Exception {
-        Scanner keyboard = new Scanner(System.in);
-        Punto punto = new Punto(-4,4);
-        quadrante(punto);
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Creazione del primo punto:");
+        Punto primoPunto = leggiPunto(input);
 
-        /*punto.setX(2);
-        punto.setY(3);*/
+        System.out.println("Creazione del secondo punto:");
+        Punto secondoPunto = leggiPunto(input);
 
-        //System.out.println(punto.toString());
-
-
-        /*try{
-            Punto punto1 = new Punto(41,45);
-
-            quadrante(punto1);
-            Punto punto2 = new Punto(3);
-
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }*/
-
-
-
-
-
-
+        Segmento segmento = new Segmento(primoPunto, secondoPunto);
+        System.out.println(segmento);
     }
 
-    public static void quadrante(Punto punto){
-        if(punto.getX()>0&&punto.getY()>0){
-            System.out.println("Il punto si trova nel primo quadrante");
-        }else if(punto.getX()<0&&punto.getY()>0){
-            System.out.println("Il punto si trova nel secondo quadrante");
-        }else if(punto.getX()<0&&punto.getY()<0){
-            System.out.println("Il punto si trova nel terzo quadrante");
-        }else if(punto.getX()>0&&punto.getY()<0){
-            System.out.println("Il punto si trova nel quarto quadrante");
-        }else{
-            System.out.println("Il punto si trova nell'origine");
-        }
+    private static Punto leggiPunto(Scanner input) {
+        System.out.print("Inserisci la coordinata X: ");
+        int x = input.nextInt();
+
+        System.out.print("Inserisci la coordinata Y: ");
+        int y = input.nextInt();
+
+        return new Punto(x, y);
     }
 }

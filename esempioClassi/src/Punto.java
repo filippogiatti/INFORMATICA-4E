@@ -1,63 +1,61 @@
-import java.util.Scanner;
 public class Punto {
-    private int x;
-    private int y;
+    private int coordX;
+    private int coordY;
+    private int quadrante;
 
-    /*public Punto(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }*/
-
+    // Costruttore predefinito
     public Punto() {
-        this.x = 10;
-        this.y = 10;
+        this.coordX = 0;
+        this.coordY = 0;
+        this.quadrante = determinaQuadrante();
     }
 
-    public Punto(int x, int y) throws Exception {
-        if (x > 40) {
-            throw new Exception("OutOfRange x");
-        }
-
-        if(y>50){
-            throw new Exception("OutOfRange y");
-        }
-        this.setX(x);
-        this.setY(y);
+    // Costruttore con parametri
+    public Punto(int coordX, int coordY) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.quadrante = determinaQuadrante();
     }
 
-    public static Punto inseriemntoPunto(Scanner keyboard){
-        Punto temp=new Punto();
-        System.out.println("Inserisci le coordinate di x:");
-        temp.setX(keyboard.nextInt());
-        System.out.println("Inserisci le coordinate di y:");
-        temp.setY(keyboard.nextInt());
-
-        return temp;
+    // Metodo per determinare il quadrante
+    private int determinaQuadrante() {
+        if (coordX > 0 && coordY > 0) return 1;
+        if (coordX < 0 && coordY > 0) return 2;
+        if (coordX < 0 && coordY < 0) return 3;
+        if (coordX > 0 && coordY < 0) return 4;
+        return 0; // Origine o assi
     }
 
-    public Punto(int y) throws Exception {
-        this(23, y) ;
-
-    }
-    public int getX(){
-       return x;
+    // Getter per la coordinata X
+    public int getCoordX() {
+        return coordX;
     }
 
-    public void setX(int x){
-        this.x = x;
+    // Setter per la coordinata X
+    public void setCoordX(int coordX) {
+        this.coordX = coordX;
+        this.quadrante = determinaQuadrante(); // Aggiorna il quadrante
     }
 
-    public int getY(){
-        return y;
+    // Getter per la coordinata Y
+    public int getCoordY() {
+        return coordY;
     }
 
-    public void setY(int y){
-        this.y = y;
+    // Setter per la coordinata Y
+    public void setCoordY(int coordY) {
+        this.coordY = coordY;
+        this.quadrante = determinaQuadrante(); // Aggiorna il quadrante
     }
 
+    // Getter per il quadrante
+    public int getQuadrante() {
+        return quadrante;
+    }
+
+    // Metodo toString
     @Override
     public String toString() {
-        return String.format("x: %d\ny: %d", x,y);
-
+        return "Punto (" + coordX + ", " + coordY + "), Quadrante: " + quadrante;
     }
 }

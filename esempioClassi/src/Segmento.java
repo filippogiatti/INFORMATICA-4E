@@ -1,41 +1,44 @@
-import java.util.Scanner;
-
 public class Segmento {
-    private Punto estremo1;
-    private Punto estremo2;
-    private double lunghezza;
+    private Punto inizio;
+    private Punto fine;
+    private double distanza;
 
-    public Punto getEstremo1() {
-        return estremo1;
+    // Costruttore
+    public Segmento(Punto inizio, Punto fine) {
+        this.inizio = inizio;
+        this.fine = fine;
+        this.distanza = calcolaDistanza();
     }
 
-    public void setEstremo1(Punto estremo1) {
-        this.estremo1 = estremo1;
+    // Metodo per calcolare la distanza tra i punti
+    private double calcolaDistanza() {
+        int differenzaX = fine.getCoordX() - inizio.getCoordX();
+        int differenzaY = fine.getCoordY() - inizio.getCoordY();
+        return Math.sqrt(differenzaX * differenzaX + differenzaY * differenzaY);
     }
 
-    public Punto getEstremo2() {
-        return estremo2;
+    // Getter per il punto iniziale
+    public Punto getInizio() {
+        return inizio;
     }
 
-    public void setEstremo2(Punto estremo2) {
-        this.estremo2 = estremo2;
+    // Getter per il punto finale
+    public Punto getFine() {
+        return fine;
     }
 
-    public double getLunghezza() {
-        return lunghezza;
+    // Getter per la lunghezza del segmento
+    public double getDistanza() {
+        return distanza;
     }
 
-    public void setLunghezza(double lunghezza) {
-        this.lunghezza = lunghezza;
-    }
-
-    public static Segmento inserimentoSegmento(Scanner keyboard){
-        Segmento temp=new Segmento();
-        System.out.println("Inserisci le coordinate di x:");
-        temp.setEstremo1(Punto.inseriemntoPunto(keyboard));
-        System.out.println("Inserisci le coordinate di y:");
-        temp.setEstremo2(Punto.inseriemntoPunto(keyboard));
-
-        return temp;
+    // Metodo toString
+    @Override
+    public String toString() {
+        return "Segmento: " +
+                "Inizio = " + inizio +
+                ", Fine = " + fine +
+                ", Lunghezza = " + String.format("%.2f", distanza);
     }
 }
+
